@@ -1,0 +1,7 @@
+{
+  "name": "spendsnap",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
