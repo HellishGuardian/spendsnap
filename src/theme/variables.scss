@@ -1,2 +1,15 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+/* src/theme/variables.scss */
+:root {
+  /* Brand Colors */
+  --ion-color-primary: #6200ee; /* Example Purple */
+  --ion-color-primary-rgb: 98, 0, 238;
+  
+  /* Semantic Colors (Use these names in your code, not colors) */
+  --app-color-success: #2ecc71; /* For positive budgets */
+  --app-color-danger: #e74c3c;  /* For overspending */
+  --app-color-warning: #f1c40f; /* For limits approaching */
+}
+
+/* Accessibility: High Contrast Mode support logic will go here later */

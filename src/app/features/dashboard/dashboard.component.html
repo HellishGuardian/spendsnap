@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Dashboard
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-list *ngIf="isProcessing">
+    <ion-item>
+      <ion-spinner slot="start" name="lines-small"></ion-spinner>
+      <ion-label>{{ receiptCount > 0 ? 'Processing Receipt...' : 'Loading Receipts...' }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ng-container *ngIf="(receipts$ | async) as receipts">
+
+    <ion-list *ngIf="!isProcessing && receipts.length === 0">
+      <ion-item>
+        <ion-label class="ion-text-center">
+          <h2>No receipts found.</h2>
+          <p>Tap the camera button to scan your first receipt!</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="receipts.length > 0">
+      <ion-list-header>
+        <ion-label>Latest Receipts ({{ receipts.length }})</ion-label>
+      </ion-list-header>
+      
+      <ion-item *ngFor="let receipt of receipts">
+        <ion-label>
+          <h2>{{ receipt.merchant }}</h2> 
+          <p>Total: **{{ receipt.total | number: '1.2-2' }} {{ receipt.currency }}**</p>
+          <p>Date: {{ receipt.date | date: 'mediumDate' }}</p>
+        </ion-label>
+        <ion-badge slot="end" [color]="receipt.status === ReceiptStatus.Confirmed ? 'success' : 'warning'">
+          {{ receipt.status }}
+        </ion-badge>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="onCameraClick()" [disabled]="isProcessing">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
