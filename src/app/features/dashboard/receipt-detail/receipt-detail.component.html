@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Receipt Details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss.emit(false)">CLOSE</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <ion-list>
+    <ion-item>
+      <ion-label>Merchant</ion-label>
+      <ion-note slot="end">{{ receipt.merchant }}</ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Total</ion-label>
+      <ion-note slot="end">
+        **{{ receipt.total | number: '1.2-2' }} {{ receipt.currency }}**
+      </ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Status</ion-label>
+      <ion-select 
+        [(ngModel)]="selectedStatus" 
+        [placeholder]="receipt.status">
+        <ion-select-option value="REVIEW">REVIEW</ion-select-option>
+        <ion-select-option value="CONFIRMED">CONFIRMED</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="receipt.items.length > 0">
+    <ion-list-header>Items ({{ receipt.items.length }})</ion-list-header>
+    <ion-item *ngFor="let item of receipt.items">
+      <ion-label>{{ item.name }}</ion-label>
+      <ion-note slot="end">{{ item.price | number: '1.2-2' }}</ion-note>
+    </ion-item>
+  </ion-list>
+  
+</ion-content>
+
+<ion-footer class="ion-padding">
+  <ion-button 
+    expand="block" 
+    (click)="onSaveStatus()" 
+    [disabled]="selectedStatus === receipt.status">
+    SAVE STATUS
+  </ion-button>
+</ion-footer>

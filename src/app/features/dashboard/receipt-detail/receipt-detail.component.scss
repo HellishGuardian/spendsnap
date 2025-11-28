@@ -1,0 +1,19 @@
+:host {
+    // 1. Make the component's host element (app-receipt-detail) fill its container vertically
+    height: 100%; 
+    // 2. Enable Flexbox layout on the host element
+    display: flex;
+    // 3. Arrange child elements (ion-header, ion-content, ion-footer) vertically
+    flex-direction: column;
+}
+
+// Ensure the ion-content element takes up all remaining space
+ion-content {
+    // Allows ion-content to grow and handle scrolling within the available space
+    flex-grow: 1; 
+}
+
+// Optional: Add some padding to the footer button for better spacing
+ion-footer {
+    padding: 8px 16px; 
+}

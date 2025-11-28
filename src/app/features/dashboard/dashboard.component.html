@@ -31,16 +31,19 @@
         <ion-label>Latest Receipts ({{ receipts.length }})</ion-label>
       </ion-list-header>
       
-      <ion-item *ngFor="let receipt of receipts">
-        <ion-label>
-          <h2>{{ receipt.merchant }}</h2> 
-          <p>Total: **{{ receipt.total | number: '1.2-2' }} {{ receipt.currency }}**</p>
-          <p>Date: {{ receipt.date | date: 'mediumDate' }}</p>
-        </ion-label>
-        <ion-badge slot="end" [color]="receipt.status === ReceiptStatus.Confirmed ? 'success' : 'warning'">
-          {{ receipt.status }}
-        </ion-badge>
-      </ion-item>
+      <ion-item 
+            *ngFor="let receipt of receipts" 
+            (click)="openReceiptDetail(receipt)" 
+            button> 
+            <ion-label>
+                <h2>{{ receipt.merchant }}</h2> 
+                <p>Total: **{{ receipt.total | number: '1.2-2' }} {{ receipt.currency }}**</p>
+                <p>Date: {{ receipt.date | date: 'mediumDate' }}</p>
+            </ion-label>
+            <ion-badge slot="end" [color]="receipt.status === ReceiptStatus.Confirmed ? 'success' : 'warning'">
+                {{ receipt.status }}
+            </ion-badge>
+        </ion-item>
     </ion-list>
   </ng-container>
 
@@ -49,5 +52,14 @@
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+  <ion-modal [isOpen]="selectedReceipt !== null" 
+           (willDismiss)="handleModalDismiss(false)">
+    <ng-container *ngIf="selectedReceipt">
+        <app-receipt-detail 
+            [receipt]="selectedReceipt" 
+            (dismiss)="handleModalDismiss($event)">
+        </app-receipt-detail>
+    </ng-container>
+  </ion-modal>
 
 </ion-content>

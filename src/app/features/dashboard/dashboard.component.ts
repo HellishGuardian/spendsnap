@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, 
   IonFab, IonFabButton, IonIcon, IonSpinner,
-  IonList, IonItem, IonLabel, IonListHeader, IonBadge // <-- Added list components
+  IonList, IonItem, IonLabel, IonListHeader, IonBadge, IonModal // <-- Added list components
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { camera } from 'ionicons/icons';
@@ -14,6 +14,7 @@ import { ScanRequest } from '../../core/models/api.model';
 import { Receipt, ReceiptStatus } from '../../core/models/receipt.model'; // <-- Ensure Receipt is imported
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs'; // <-- Added RxJS imports
+import { ReceiptDetailComponent } from './receipt-detail/receipt-detail.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,8 @@ import { Observable, Subscription } from 'rxjs'; // <-- Added RxJS imports
     CommonModule, 
     IonHeader, IonToolbar, IonTitle, IonContent, 
     IonFab, IonFabButton, IonIcon, IonSpinner,
-    IonList, IonItem, IonLabel, IonListHeader, IonBadge 
+    IonList, IonItem, IonLabel, IonListHeader, IonBadge, IonModal,
+    ReceiptDetailComponent
   ]
 })
 export class DashboardComponent implements OnInit, OnDestroy { // <-- Implement OnInit, OnDestroy
@@ -34,6 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy { // <-- Implement 
   isProcessing = false; 
   private receiptsSubscription!: Subscription;
   public ReceiptStatus = ReceiptStatus;
+  selectedReceipt: Receipt | null = null;
 
   public get receiptCount(): number {
     return this.receiptService.getReceiptsCount();
@@ -127,5 +130,13 @@ export class DashboardComponent implements OnInit, OnDestroy { // <-- Implement 
     } finally {
       this.isProcessing = false; 
     }
+  }
+
+  openReceiptDetail(receipt: Receipt) {
+    this.selectedReceipt = receipt;
+  }
+
+  handleModalDismiss(updated: boolean) {
+    this.selectedReceipt = null; 
   }
 }

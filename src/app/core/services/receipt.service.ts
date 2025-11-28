@@ -40,4 +40,17 @@ export class ReceiptService {
       const receipts = this.receiptsSubject.getValue();
       return receipts ? receipts.length : 0;
   }
+
+  /**
+   * Updates a single receipt in the local state array after a successful API call.
+   * This is necessary to immediately update the dashboard view without a full re-fetch.
+   */
+  updateReceipt(updatedReceipt: Receipt): void {
+      const currentReceipts = this.receiptsSubject.getValue();
+      const updatedList = currentReceipts.map(r => 
+          // Replace the old receipt with the newly updated one
+          r.id === updatedReceipt.id ? updatedReceipt : r
+      );
+      this.receiptsSubject.next(updatedList);
+  }
 }
