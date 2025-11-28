@@ -38,4 +38,13 @@ export class ApiService {
     // This makes a GET request to http://localhost:3000/receipt?userId=user_abc123
     return this.http.get<Receipt[]>(`${this.API_URL}/receipt`, { params });
   }
+
+  updateReceipt(
+    id: string, 
+    data: Partial<Receipt>
+  ): Observable<Receipt> {
+    
+    // Maps to PATCH http://localhost:3000/v1/receipt/:id
+    return this.http.patch<Receipt>(`${this.API_URL}/receipt/${id}`, data);
+  }
 }
